@@ -1,0 +1,70 @@
+all
+	first_name
+	last_name
+	first_name_lat
+	last_name_lat
+	sex
+	birth_date
+	citizenship
+	passport_num
+	passport_duration_from_date
+	passport_duration_till_date
+	visa_number
+	visa_delivery_date
+	visa_entrance_from_date
+	visa_entrance_till_date
+	visa_id_num
+	migration_number
+	migration_date
+	migration_border
+	migration_uvd
+	contract_status
+	contract_number
+	contract_date
+	contract_company_name
+	order_number
+	order_date
+	program_status
+	faculty_name
+	faculty_grade
+	study_from_date
+	study_till_date
+	study_group_number
+	pre_univ_training
+	program_change
+	pre_arrival_date_char
+	arrival_date
+	phone
+	e_mail
+	note
+	register_date
+	address
+	address_migration
+	address_native
+	case_omir_transfer R
+	case_ok_receive R
+
+omir
+	invitation_sent_date
+	invitation_received_date
+	invitation_number
+	invitation_duration_from_date
+	invitation_duration_till_date
+	pay_registration_fee_date
+	pay_invitation_fee_date
+	note_omir
+	case_omir_transfer
+	
+passport
+
+otdel_kadrov
+	case_ok_receive
+	
+Test
+	first_name
+	last_name
+	first_name_lat
+	last_name_lat
+	sex
+	birth_date
+	citizenship

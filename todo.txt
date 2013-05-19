@@ -1,0 +1,10 @@
++ color of crit cases
++ critical student cases
++ remove records from clened_data on form.save() based on permissions
++ editable list of univercities/firms
+- document printing
+- move all urls from script to <link ref>
+- go to edit when clicked on student line instead of a separate href
+- search by choice columns
+- background choice
+#inlcude: ../imop.txt
