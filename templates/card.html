@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>КАРТОЧКА НА ОБУЧАЮЩЕГОСЯ</title>
+	<style type="text/css">
+		body{
+			font-size: 7mm;
+		}
+		.card_value{
+			border-bottom: solid 1mm black;
+			width: 50%;
+			text-align: center;
+		}
+	</style>
+</head>
+<body style="height: 210mm; width: 297mm; padding: 20mm; border: 1px solid gray;">
+	<h2 align="center">КАРТОЧКА НА ОБУЧАЮЩЕГОСЯ</h2>
+	<div src="{{ photo_path }}" alt="фото" style="float: right; border: 1mm black solid; width: 30mm; height: 40mm;">
+		<p align="center">фото</p>
+	</div>
+	<table width=100%>
+		{% for i in 'xxxxxxxxxxxxxx' %}
+		<tr>
+			<td>Фамилия</td>
+			<td class="card_value">{{ last_name }}</td>
+			<td>Имя</td>
+			<td class="card_value">{{ first_name }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>

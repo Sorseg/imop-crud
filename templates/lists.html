@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Редактирование списков{% endblock %}
+
+{% block content %}
+<h2>Фирмы:</h2>
+	<form method="post">
+		{% csrf_token %}
+		{% for firm in firms %}
+			<input name="firm_{{ firm.id }}" value="{{ firm.name }}">
+			<input type="submit" name="firm_edit_{{ firm.id }}" value="Изменить" />
+			<input class="delete_button" type="submit" name="firm_del_{{ firm.id }}" value="X" />
+			<br>
+		{% endfor %}
+		<hr>
+		Добавление:
+		<input name="firm_add_name" />
+		<input type="submit" name="firm_add" value="Добавить">
+	</form>
+	
+<h2>Институты:</h2>
+	<form method="post">
+		{% csrf_token %}
+		{% for ins in institutes %}
+			<input name="inst_{{ ins.id }}" value="{{ ins.name }}">
+			<input type="submit" name="inst_edit_{{ ins.id }}" value="Изменить" />
+			<input class="delete_button" type="submit" name="inst_del_{{ ins.id }}" value="X" />
+			<br>
+		{% endfor %}
+		<hr>
+		Добавление:
+		<input name="inst_add_name" />
+		<input type="submit" name="inst_add" value="Добавить">
+	</form>
+{% endblock %}

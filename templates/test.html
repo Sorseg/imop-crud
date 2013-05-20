@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}ТЕСТОЛВАЯ СТРАНИЦА{% endblock %}
+
+{% block content %}
+<p>cookies: {{ cookies }}</p>
+<p>params: {{ params }}</p>
+<p>wf: {{ view_format }}</p>
+<a href="?test=12345">TEST</a>
+{% endblock %}

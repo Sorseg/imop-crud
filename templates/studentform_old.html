@@ -1,0 +1,16 @@
+{% for form in forms %}
+	<div class="collapseable">
+		<h3>{{ form.name }}</h3>
+		<table class="form">
+			{# if result %}<tr><td><img src="/img/ico/eye.png" width=20px ></td></tr>{% endif #}
+			
+			{% for field in form.vis_fields %}
+				{% if readonly %}
+					<tr><th>{{ field.label_tag }}</th><td>{{ field.visible_value|default:"-" }}</td></tr>
+				{% else %}
+					<tr><td>{# if result %}<input type="checkbox" name="vis{{ forloop.counter }}">{% endif #}</td><th>{{ field.label_tag }}</th><td>{{ field.errors }}{{ field }}</td></tr>
+				{% endif %}
+			{% endfor %}
+		</table>
+	</div>
+{% endfor %}

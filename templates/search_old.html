@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Поиск студентов{% endblock %}
+
+{% block content %}
+<h1>ПОИСК</h1>
+<form action="{% url search %}" method="post">
+	<input type="submit" value="Найти">
+	{% csrf_token %}
+	{% include view_format %}
+	<input type="submit" value="Найти">
+</form>
+
+{% if result %}
+<table class="searchresult">
+	<thead>
+		<th><img src="/img/ico/edit.png" width=20px></th>
+		{% for h in result_header %}
+			<th>{{ h }}</th>
+		{% endfor %} 
+	</thead>
+	<tbody>
+		{% for line in result %}
+			<tr id="{{ line.0 }}">
+					{% if line.1.locked_by %}
+				<td class="locked">
+				    <a href="{% url view line.0 %}">
+						<img src="/img/ico/lock.png" width=20px class="locked">
+					</a>
+					<div>Запись редактирует {{ line.1.locked_by.get_full_name }}</div>
+				</td>
+					{% else %}
+				<td>
+					<a href="{% url view line.0 %}"><img src="/img/ico/eye.png" width=20px></a>
+				</td>
+					{% endif %}
+				{% for val in line|slice:"2:" %}
+					<td>{% if val %}{{val}}{% else %}-{% endif %}</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<div class="vspacer"> </div>
+{% endif %}
+{% endblock %}

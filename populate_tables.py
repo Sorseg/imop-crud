@@ -1,5 +1,5 @@
 #coding:utf8
-
+#launch via manage.py
 from django.contrib.auth.models import User, Group
 from django.db import transaction
 from students.models import *

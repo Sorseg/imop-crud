@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Поиск студентов{% endblock %}
+
+{% block content %}
+<h1>ПРОСМОТР</h1>
+
+<a href="{% url edit pk %}" class="locked">
+	{% if locked_by %}
+	<img src="/img/ico/lock.png">
+	<div>Запись редактирует {{ locked_by }}</div>
+	{% else %}
+	<img src="/img/ico/edit.png">
+	{% endif %}
+	</a>
+	{% include view_format %}
+{% endblock %}

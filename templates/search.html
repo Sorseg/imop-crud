@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Поиск студентов{% endblock %}
+
+{% block content %}
+{% if search_name %}
+<h1 class="{{ search_class }}">ПОИСК {{ search_name }}</h1>
+{% else %}
+<h1>ПОИСК</h1>
+{% endif %}
+<h2><a href="javascript:;" onclick="$('.columns_select').toggle()">Выбрать столбцы</a></h2>
+<div class="columns_select" style="display:none;">
+	<input id="allcheck" type="checkbox" value="all" checked>
+	<label for="allcheck">ВСЕ</label>
+	<ol>
+		
+	{% for h in result_header %}
+		<li><input id="check{{ forloop.counter }}" type="checkbox" value="{{ forloop.counter }}">
+			<label for="check{{ forloop.counter }}">{{ h }}</label></li> 
+	{% endfor %}
+	</ol>
+</div>
+
+<table class="searchresult">
+	<thead>
+		<tr><td></td>
+			{% for h in result_header %}
+			<td><input num="{{ forloop.counter }}" class="col_filter"></td>
+			{% endfor %}
+		</tr>
+		<tr>
+		<th><img src="/img/ico/edit.png" width=20px></th>
+		{% for h in result_header %}
+			<th>{{ h }}<br></th>
+		{% endfor %}
+		</tr> 
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+<div class="vspacer"> </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Редактирование записи{% endblock %}
+
+{% block content %}
+<h1>РЕДАКТИРОВАНИЕ, № {{ pk }}</h1>
+
+{% if version_error%}
+	<div class="error">Вы слишком долго редактировали эту запись.<br>
+		За это время она была изменена. Пожалуйста, повторите свои правки.
+	</div>
+{% endif %}
+
+{% if not success %}
+	<form method="post">
+		<input type="hidden" name="version" value="{{ version }}">
+			<input type="submit" value="Отменить" name="cancel">
+			<input type="submit" value="Сохранить">
+			<input type="submit" value="Копировать" name="copy">
+			<input type="submit" value="Удалить" name="delete" onclick="if(confirm('Действительно удалить?')){return true;} else { return false; }" >
+		{% csrf_token %}
+		{% include view_format %}
+			<input type="submit" value="Отменить" name="cancel">
+			<input type="submit" value="Сохранить">
+			<input type="submit" value="Копировать" name="copy">
+			<input type="submit" value="Удалить" name="delete" onclick="if(confirm('Действительно удалить?')){return true;} else { return false; }" >
+	</form>
+	
+<h3><a href="javascript:;" onclick="toggle_form(this);">Документы</a></h3>
+{% endif %}
+<ul id='docs' style="display: none;">
+	{% comment %}
+	{% for doc in docs %}
+	<li><a href="{% url doc_render pk doc %}">{{ doc }}</a></li>
+	{% endfor %}
+	{% endcomment %}
+</ul>
+{% endblock %}

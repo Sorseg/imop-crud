@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<title>Вход в систему</title>
+		<link rel="stylesheet" href="/css/students.css">
+	</head>
+	<body>
+		
+<div style="margin:2em;">
+Для работы в системе необходимо авторизоваться:
+
+<form method="post" action="{% url login %}">
+	{% csrf_token %}
+	<table class="form">
+	{{ form.as_table }}
+	</table>
+	
+	<input type="submit" value="Войти" />
+	<input type="hidden" name="next" value="{{ next }}" />
+</form>
+</div>
+</body>
+</html>
