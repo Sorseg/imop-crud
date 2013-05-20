@@ -50,7 +50,7 @@ citiz = u'Россия Украина Германия Испания Финля
 
 
 #Students:
-if '-s' in sys.argv or '-a' in sys.argv:
+if '-s' in sys.argv:
     Student.objects.all().delete()
 
     i = 0
