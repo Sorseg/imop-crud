@@ -68,3 +68,6 @@ Test
 	sex
 	birth_date
 	citizenship
+	
+otdel_kontraktov
+    case_ok_transfer

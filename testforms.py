@@ -12,8 +12,10 @@ def test_fields_existance():
                 print "DOUBLING", f
         found_fields = set(found)
         print file, len(fields), len(found_fields)
-        print "lost:", fields - found_fields
-	print "not needed:", found_fields - fields
-        
-        
+        lost = fields - found_fields
+        not_needed = found_fields - fields
+        if lost: print "lost: ", list(lost)
+        if not_needed: print "not needed:", found_fields - fields
+
+
 test_fields_existance()

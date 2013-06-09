@@ -19,14 +19,14 @@ import time
 import traceback
 import os
 
-view_formats = ['passport_form.html','omir_form.html']
+view_formats = ['passport_form.html', 'omir_form.html', 'kadr_form.html']
 
 def student_render(template=None, mimetype=None):
     """
     Decorator for Django views that sends returned dict to render_to_response function
     and adds necessary items
     """
-    
+
     def renderer(function):
         @login_required
         @wraps(function)
@@ -64,7 +64,7 @@ def search(request):
     else:
         search_name = ''
         search_class = ''
-        
+
     return {'result_header': Student.get_table_header(perm),
             'search_name':search_name,
             'search_class':search_class}
@@ -92,7 +92,7 @@ def add(request):
 
 @student_render('edit.html')
 def edit(request, pk):
-    
+
     docs = [i for i in os.listdir(settings.DOCS_ROOT) if i.endswith('.rtf')]
     docs = sorted(docs)
     result = {'pk': pk,
@@ -182,9 +182,9 @@ def ajax_search(request):
         seach_source = Student.crit_cases[request.GET['crit']]()
     else:
         seach_source = Student.objects
-        
+
     search_result = seach_source.filter(**search_conds)
-    
+
     #Sorting:
     order_fields = []
     sortcolnum = int(parameters['iSortingCols'])
@@ -195,10 +195,10 @@ def ajax_search(request):
         if parameters['sSortDir_'+str(i)] == 'desc':
             sc = '-'+sc
         order_fields.append(sc)
-    
+
     if order_fields:
         search_result = search_result.order_by(*order_fields)
-        
+
     response['iTotalRecords'] = Student.objects.count()
     response['iTotalDisplayRecords'] = search_result.count()
     #TODO: response['sColumns'] = ['first_name','first_name_lat']
@@ -215,12 +215,12 @@ def ajax_search(request):
 
 @student_render('lists.html')
 def lists(request):
-    
+
     if request.method == 'POST':
         for Class, pref in [(Firm, 'firm'), (Institute, 'inst')]:
             if pref+'_add' in request.POST:
                 name = request.POST.get(pref+'_add_name','')
-                if name: 
+                if name:
                     Class.objects.create(name=name)
             else:
                 for key in request.POST.keys():
@@ -232,8 +232,8 @@ def lists(request):
                     if key.startswith(pref+'_del_'):
                         pk = int(key.split('_')[-1])
                         Class.objects.get(pk=pk).delete()
-            
-    
+
+
     return {'firms':Firm.objects.all(),'institutes':Institute.objects.all()}
 
 
@@ -249,9 +249,9 @@ def countries(request):
 def doc_render(request, pk, doc):
     doc_fname = os.path.basename(doc)
     contents = open(os.path.join(settings.DOCS_ROOT, doc_fname)).read()
-    
+
     response = HttpResponse(contents, content_type='application/rtf')
     response['Content-Disposition']='attachment; filename="'+doc_fname+'"'
-    
+
     return response
 
