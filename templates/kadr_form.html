@@ -1,7 +1,28 @@
 {% load students_extra %}
 {# <script type="text/javascript" src="/js/table_nav.js"></script> #}
 <h3><a href="javascript:;" onclick="toggle_form(this);">ОМиР</a></h3>
-<table class="form" id="general_form">
+
+
+
+
+
+<h3><a href="javascript:;" onclick="toggle_form(this);">Отдел Кадров</a></h3>
+<table class="form" id="kadr_form">
+
+	<tr>
+		{% field form.contract_number %}
+		{% field form.contract_date %}					
+	</tr>
+	<tr>
+		{% field form.study_group_number %}
+		{% field form.program_change %}
+	</tr>
+	
+
+</table>
+
+<h3><a href="javascript:;" onclick="toggle_form(this);">Остальное</a></h3>
+<table class="form" id="other_form">
 	<tr>
 		{% field form.last_name %}
 		{% field form.first_name %}
@@ -50,18 +71,11 @@
 		<td> </td><td> </td>
 		{% field form.note_omir %}		
 	</tr>
-	
-</table>
-<h3><a href="javascript:;" onclick="toggle_form(this);">Остальные данные</a></h3>
-<table class="form" id="passport_form">
 	<tr>
 		{% field form.order_number %}	
 		{% field form.order_date %}						
 	</tr>
-	<tr>
-		{% field form.contract_number %}
-		{% field form.contract_date %}					
-	</tr>
+
 	<tr>
 		{% field form.last_name_lat %}
 		{% field form.first_name_lat %}
@@ -95,10 +109,7 @@
 		{% field form.pre_arrival_date_check %}
 		{% field form.arrival_date %}
 	</tr>	
-	<tr>
-		{% field form.study_group_number %}
-		{% field form.program_change %}
-	</tr>
+
 	<tr>
 		{% field form.migration_date %}
 		{% field form.case_ok_receive %}
@@ -110,7 +121,6 @@
 	<tr>
 		{% field form.migration_number %}
 	</tr>
-
 </table>
 
 <h3><a href="javascript:;" onclick="toggle_form(this);">Контакты</a></h3>

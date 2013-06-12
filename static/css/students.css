@@ -1,0 +1,105 @@
+.vspacer{
+	margin-top: 10em;
+}
+
+a{
+	color: #004880;
+}
+
+
+input{
+	border: 1px solid gray;
+}
+
+body{
+	background: #EEEEEE;
+	font-family: sans-serif;
+}
+
+.sidebar{
+	background: #ccc;
+	vertical-align: top;
+	padding: 4pt;
+}
+
+.sidebar td, th{
+	padding: 3pt;
+}
+
+table.form tr, table.info tr{
+	border-bottom: thin solid gray;
+	margin: 5pt;
+}
+
+
+table.form th, table.info th{
+	text-align: left;
+	width: 300px;
+}
+
+.usermenu{
+	margin-top: 5em;
+	padding: 3pt;
+	line-height: 150%;
+}
+
+.error{
+	background: #fee;
+	border: 1px solid red;
+	border-radius: 5px;
+}
+
+.success{
+	background: #efe;
+	border: 1px solid green;
+	border-radius: 5px;
+}
+
+.warning{
+	background: #ffc;
+	border: 1px solid #880;
+	border-radius: 5px;
+}
+
+.success, .warning, .error{
+	padding: 5pt;
+	margin: 5pt;
+}
+
+.errorlist{
+	color:#800
+}
+
+.hidden, .locked div{
+	display:none;
+}
+
+.locked:hover div{
+	padding: 5pt;
+	display:block;
+	position: absolute;
+	z-index: 999;
+	background: #ee8;
+	border: 1px solid #880;
+	border-radius: 5px;
+}
+
+h3 {
+	background-color: #aaa;
+}
+
+h3 a {
+	color: #333;
+}
+
+.get_opk_late {
+	background-color: #f66;
+}
+
+.get_inv_late {
+	background-color: #ff6;
+}
+
+.delete_button {
+	background-color: #f66;
+}

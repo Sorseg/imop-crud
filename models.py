@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.utils import timezone
 import traceback
 import datetime
-# Create your models here.
+
 
 class Student(models.Model):
     CONTRACT_CHOICES = (
@@ -17,7 +17,7 @@ class Student(models.Model):
                         ('I',u'Контракт индивидуал.'),
                         ('C',u'Контракт фирма'),
                        )
-    
+
     PROGRAM_STATUS_CHOICES = (
                               ('D',u'Довузовая подготовка'),
                               ('B',u'Бакалавриат'),
@@ -27,52 +27,52 @@ class Student(models.Model):
                               ('P',u'Стажировка'),
                               ('S',u'Краткосрочная программа'),
                               )
-    
+
     SEX_CHOICES = (
                    ('F',u'Ж'),
                    ('M',u'М'),
                    )
-    
+
     PRE_TRAINING_CHOICES = (
                             ('1S',u'Подготовка к 1 СУ'),
                             ('1SM',u' Подготовка к 1 СУ с модулем'),
                             )
-    
+
     last_name = models.CharField(u"Фамилия", max_length=255)
     first_name = models.CharField(u"Имя", max_length=255)
-    
+
     last_name_lat = models.CharField(u"Фамилия (лат.)", max_length=255)
     first_name_lat = models.CharField(u"Имя (лат.)", max_length=255)
-    
+
     sex = models.CharField(u"Пол", max_length = 1, choices = SEX_CHOICES)
-    
+
     birth_date = models.DateField(u'Дата рождения', null = True)
-    
+
     citizenship = models.CharField(u"Гражданство", max_length = 255)
     passport_num = models.CharField(u"Номер паспорта", max_length = 255)
     passport_duration_from_date = models.DateField(u"Паспорт выдан", null = True)
     passport_duration_till_date = models.DateField(u"Паспорт истекает", null = True)
-    
+
     visa_number = models.CharField(u"Номер визы", max_length = 50)
     visa_delivery_date = models.DateField(u"Дата выдачи визы", null = True)
     visa_entrance_from_date = models.DateField(u"Въезд с", null = True)
     visa_entrance_till_date = models.DateField(u"Въезд до", null = True)
     visa_id_num = models.CharField(u"Идентиф. №", max_length = 50)
-    
+
     migration_number = models.CharField(u"Номер миграционной карты", max_length = 50)
     migration_date = models.DateField(u"Дата посл. перес. гр.", null = True)
     migration_border = models.CharField(u"Пункт пересечения", max_length = 50)
     migration_uvd = models.CharField(u"УВД", max_length = 50)
-    
+
     invitation_sent_date = models.DateField(u"Приглашение отдано в ОПК", null = True)
     invitation_received_date = models.DateField(u"Приглашение получено из ОПК", null = True)
     invitation_number = models.CharField(u"№ приглашения", max_length = 100)
     invitation_duration_from_date = models.DateField(u"Приглашение действительно с", null = True)
     invitation_duration_till_date = models.DateField(u"Приглашение действительно до", null = True)
-    
+
     pay_registration_fee_date = models.DateField(u"Оплата регистрационного взноса", null = True)
     pay_invitation_fee_date = models.DateField(u"Оплата приглашения", null = True)
-    
+
     contract_status = models.CharField(u"Статус", max_length = 1, choices = CONTRACT_CHOICES) # state-paid or contract
     contract_number = models.CharField(u"Контракт", max_length = 100)
     contract_date = models.DateField(u"Дата контракта", null = True)
@@ -80,7 +80,7 @@ class Student(models.Model):
     contract_company_name = models.ForeignKey('Firm', null = True, verbose_name = u"Название фирмы")
     order_number = models.CharField(u"Приказ", max_length = 100)
     order_date = models.DateField(u"Дата приказа", null = True)
-    
+
     program_status = models.CharField(u"Программа обучения", max_length = 1, choices = PROGRAM_STATUS_CHOICES)
     #faculty_name = models.CharField(u"Название института", max_length = 200)
     faculty_name = models.ForeignKey('Institute', null = True, verbose_name = u"Название института")
@@ -92,21 +92,21 @@ class Student(models.Model):
     program_change = models.CharField(u"Смена программы обучения", max_length = 255)
     case_omir_transfer = models.BooleanField(u"Передача личного дела из ОМиР")
     case_ok_receive = models.BooleanField(u"Получено личное дело в ОК")
-    
+
     pre_arrival_date_char = models.CharField(u"Ожидаемое прибытие", max_length = 50)
     pre_arrival_date_check = models.BooleanField(u"Прибытие принято")
     arrival_date = models.DateField(u"Дата прибытия",null=True)
-    
+
     phone = models.CharField(u"Тел. номер", max_length = 50)
     e_mail = models.CharField(u"e-mail", max_length = 255)
     note = models.TextField(u"Примечание:")
     note_omir = models.TextField(u"Примечание(только ОМиР):")
     register_date = models.DateField(u"Дата регистрации", null = True)
-    
+
     address = models.CharField(u"Адрес проживания", max_length = 511)
     address_migration = models.CharField(u"Адрес мигр. уч.", max_length = 511)
     address_native = models.CharField(u"Адрес на родине", max_length = 511)
-    
+
     @classmethod
     def get_fields(cls, perm):
         new_dic = OrderedDict()
@@ -114,24 +114,24 @@ class Student(models.Model):
         for f in fields:
             new_dic[f.name] = f
         return new_dic
-    
+
     def get_dict(self, perm):
         new_dic = OrderedDict()
         fields = self.get_fields(perm)
-        
+
         for field in fields.values():
             display_attr = 'get_{}_display'.format(field.name)
             if hasattr(self, display_attr):
                 val = getattr(self, display_attr)()
             else:
                 val = getattr(self, field.name)
-                
+
             if hasattr(val, 'strftime'):
                 val = val.strftime('%d.%m.%Y')
-                
+
             if isinstance(val, models.Model):
                 val = val.name
-                
+
             new_dic[field.name] = (field.verbose_name, val or '-')
         return new_dic
 
@@ -147,7 +147,7 @@ class Student(models.Model):
             lock.version += 1
             lock.save()
             #lock.unlock()
-            
+
     def __unicode__(self):
         return self.first_name+" "+self.last_name
 
@@ -156,7 +156,7 @@ class Student(models.Model):
         fields = cls.get_fields(perm).values()
         headline = [f.verbose_name for f in fields]
         return headline
-    
+
 Student.crit_cases = OrderedDict()
 
 def crit_case(name):
@@ -165,11 +165,11 @@ def crit_case(name):
         Student.crit_cases[func.func_name]=func
         return func
     return wrapper
-    
+
 @crit_case(u"ОПК")
 def get_opk_late():
     return Student.objects.filter(invitation_sent_date__lte = datetime.date.today())
-    
+
 @crit_case(u"Пригл.")
 def get_inv_late():
     return Student.objects.filter(invitation_duration_till_date__lte = datetime.date.today()+datetime.timedelta(days=30))
@@ -180,7 +180,7 @@ class StudentRecordLock(models.Model):
     locked_date = models.DateTimeField(null = True)
     locked_by = models.ForeignKey(User, null = True)
     version = models.IntegerField(default = 0)
-    
+
     lock_timeout = timedelta(minutes = 2)
     @classmethod
     def check_timeout(cls):
@@ -200,7 +200,7 @@ class StudentRecordLock(models.Model):
                                          ).update(locked_date = timezone.now(),
                                                   locked_by = user)
         '''
-    
+
     def unlock(self, user=None):
         print "WARNING UNLOCK"
         traceback.print_stack()
@@ -215,7 +215,7 @@ class StudentRecordLock(models.Model):
 
 class Country(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    
+
     def __unicode__(self):
         return self.name
 
@@ -224,14 +224,14 @@ class GroupPermission(models.Model):
     field_name = models.CharField(max_length=300)
     permission = models.CharField(max_length=3) #RW
     group = models.ForeignKey(Group)
-    
+
     @classmethod
     def permissions(cls, group):
         perm = {}
         for p in group.grouppermission_set.all():
             perm[p.field_name] = set(p.permission)
         return perm
-    
+
     def validate_unique(self,  *args, **kw):
         super(GroupPermission, self).validate_unique(*args, **kwargs)
         if self.__class__.objects.filter(field_name = self.field_name).filter(group = self.group).exists():
@@ -260,10 +260,9 @@ def user_permissions(user, access = None):
 class Institute(models.Model):
     name = models.CharField(max_length=100)
     def __unicode__(self):
-        return self.name    
-    
+        return self.name
+
 class Firm(models.Model):
     name = models.CharField(max_length=100)
     def __unicode__(self):
         return self.name
-    
