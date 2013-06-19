@@ -63,6 +63,8 @@ class Student(models.Model):
     migration_date = models.DateField(u"Дата посл. перес. гр.", null = True)
     migration_border = models.CharField(u"Пункт пересечения", max_length = 50)
     migration_uvd = models.CharField(u"УВД", max_length = 50)
+    migration_from_date = models.DateField(u"Мигр. регистр. с", null = True)
+    migration_till_date = models.DateField(u"Мигр. регистр. до", null = True)
 
     invitation_sent_date = models.DateField(u"Приглашение отдано в ОПК", null = True)
     invitation_received_date = models.DateField(u"Приглашение получено из ОПК", null = True)
@@ -92,6 +94,7 @@ class Student(models.Model):
     program_change = models.CharField(u"Смена программы обучения", max_length = 255)
     case_omir_transfer = models.BooleanField(u"Передача личного дела из ОМиР")
     case_ok_receive = models.BooleanField(u"Получено личное дело в ОК")
+    case_ok_sent = models.BooleanField(u"Личное дело передано в УО")
 
     pre_arrival_date_char = models.CharField(u"Ожидаемое прибытие", max_length = 50)
     pre_arrival_date_check = models.BooleanField(u"Прибытие принято")
