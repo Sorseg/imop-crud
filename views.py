@@ -134,12 +134,7 @@ def edit(request, pk):
 
 
 @student_render('docs.html')
-def docs(request):
-    return {}
-
-
-@student_render('reports.html')
-def reports(request):
+def documents(request, pk):
     return {}
 
 
