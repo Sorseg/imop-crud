@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <title>{% block title %}База студентов{% endblock %}</title>
-	<link rel="stylesheet" href="/css/students.css">
+    <link rel="stylesheet" href="/css/students.css">
     <link rel="stylesheet" href="/css/jquery.css" />
     <link rel="stylesheet" href="/css/jquery.dataTables.css" />
     <script type="text/javascript" src="/js/jquery-1.9.0.min.js"></script>
@@ -16,46 +16,46 @@
 </head>
 
 <body>
-	<table class="content">
-		<tr>
-			<td class="sidebar">
-		        {% block sidemenu %}
-		        <table class="sidemenu">
-		        	<tr><td><a href="{% url add %}">Добавить</a></td></tr>
-	        		<tr><td><a href="{% url search %}">Поиск</a></td></tr>
-	        		<tr><td><a href="{% url reports %}">Отчеты</a></td></tr>
-	        		<tr><td><a href="{% url documents %}">Документы</a></td></tr>
-	        		<tr><td><hr></td></tr>
-	        		<tr><th>Порядок полей:</th></tr>
-	        		<tr><td><a href="?change_view=omir_form.html">ОМиР</a></td></tr>
-	        		<tr><td><a href="?change_view=passport_form.html">Паспорт.</a></td></tr>
-	        		<tr><td><a href="?change_view=kadr_form.html">Кадр.</a></td></tr>
-	        		<tr><td><hr></td></tr>
-	        		{% for crit_case in crit_cases %}
-	        			{% if crit_case.count %}
-	        			<tr>
-	        				<td class="{{ crit_case.id }}">
-	        					<a href="{% url search %}?crit={{ crit_case.id }}">{{crit_case.name}}({{ crit_case.count }})</a>
-	        				</td>
-	        			</tr>
-	        			{% endif %}
-	        		{% endfor %}
-	        		<tr><td><hr></td></tr>
-	        		<tr><td><a href="{% url lists %}">Редактировать списки</a></td></tr>
-	        		
-		        </table>
-		        {% endblock %}
-		        {% block usermenu %}
-		        <div class="usermenu">
-		        	Уч. запись:<br>{% if user_name %}{{ user_name }}{% else %}пользователь{% endif %}.<br>
-		        	<a href="{% url logout %}">Выйти</a>
-		        </div>
-		        {% endblock %}
-	        </td>
-	        <td class="main">
-			        {% block content %}{% endblock %}
-		    </td>
-	    </tr>
+    <table class="content">
+        <tr>
+            <td class="sidebar">
+                {% block sidemenu %}
+                <table class="sidemenu">
+                    <tr><td><a href="{% url add %}">Добавить</a></td></tr>
+                    <tr><td><a href="{% url search %}">Поиск</a></td></tr>
+                    <tr><td><a href="{% url reports %}">Отчеты</a></td></tr>
+                    <tr><td><a href="{% url documents %}">Документы</a></td></tr>
+                    <tr><td><hr></td></tr>
+                    <tr><th>Порядок полей:</th></tr>
+                    <tr><td><a href="?change_view=omir_form.html">ОМиР</a></td></tr>
+                    <tr><td><a href="?change_view=passport_form.html">Паспорт.</a></td></tr>
+                    <tr><td><a href="?change_view=kadr_form.html">Кадр.</a></td></tr>
+                    <tr><td><hr></td></tr>
+                    {% for crit_case in crit_cases %}
+                        {% if crit_case.count %}
+                        <tr>
+                            <td class="{{ crit_case.id }}">
+                                <a href="{% url search %}?crit={{ crit_case.id }}">{{crit_case.name}}({{ crit_case.count }})</a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr><td><hr></td></tr>
+                    <tr><td><a href="{% url lists %}">Редактировать списки</a></td></tr>
+
+                </table>
+                {% endblock %}
+                {% block usermenu %}
+                <div class="usermenu">
+                    Уч. запись:<br>{% if user_name %}{{ user_name }}{% else %}пользователь{% endif %}.<br>
+                    <a href="{% url logout %}">Выйти</a>
+                </div>
+                {% endblock %}
+            </td>
+            <td class="main">
+                    {% block content %}{% endblock %}
+            </td>
+        </tr>
     </table>
 </body>
 </html>
