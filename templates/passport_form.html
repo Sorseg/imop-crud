@@ -54,6 +54,10 @@
 		{% field form.invitation_number %}
 	</tr>
 	<tr>
+	        {% field form.migration_from_date %}
+	        {% field form.migration_till_date %}
+	</tr>
+	<tr>
 		{% field form.migration_uvd %}
 		{% field form.address %}
 	</tr>
@@ -107,6 +111,9 @@
 	<tr>
 		{% field form.migration_border %}
 		{% field form.pay_invitation_fee_date %}		
+	</tr>
+	<tr>
+	         {% field form.case_ok_sent %}
 	</tr>
 	
 </table>
