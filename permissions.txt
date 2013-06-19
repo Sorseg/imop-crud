@@ -18,6 +18,8 @@ all
 	migration_date
 	migration_border
 	migration_uvd
+	migration_from_date
+	migration_till_date
 	contract_status
 	contract_number
 	contract_date
@@ -43,6 +45,7 @@ all
 	address_native
 	case_omir_transfer R
 	case_ok_receive R
+	case_ok_sent R
 
 omir
 	invitation_sent_date
@@ -70,4 +73,4 @@ Test
 	citizenship
 	
 otdel_kontraktov
-    case_ok_transfer
+        case_ok_sent
