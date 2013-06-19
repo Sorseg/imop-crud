@@ -22,7 +22,7 @@ names = u'''\
 Михаэль Michael Шумахер Schumacher
 Пол Paul ди_Реста di_Resta
 Пастор Pastor Мальдонадо Maldonado
-Бруно Bruno Сенна Senna 
+Бруно Bruno Сенна Senna
 Жан-Эрик Jean-Eric Вернь Vergne
 Даниэль Daniel Рикьярдо Ricciardo
 Виталий Vitaly Петров Petrov
@@ -94,18 +94,18 @@ if any (i in sys.argv for i in ['-p','-a']):
             line = line.rstrip()
             if not line:
                 continue
-            if not line.startswith('\t'):
+            if not (line.startswith('\t') or line.startswith(' ')):
                 group = Group.objects.get_or_create(name = line)[0]
             else:
                 curr_perm = 'RW'
                 f_name = line.strip()
                 if len(line.split()) > 1:
                     f_name, curr_perm = line.split()[:2]
-                        
+
                 perm = GroupPermission.objects.get_or_create(group_id = group.id, field_name=f_name)[0]
                 perm.permission = ''.join(set(curr_perm)|set(perm.permission))
                 perm.save()
-                
+
 
 if all(p not in sys.argv for p in ['-s','-c','-a','-p']):
     print ("-s reset students\n"
