@@ -93,10 +93,11 @@ def add(request):
 @student_render('edit.html')
 def edit(request, pk):
 
-    docs = [i for i in os.listdir(settings.DOCS_ROOT) if i.endswith('.rtf')]
-    docs = sorted(docs)
+    #docs = [i for i in os.listdir(settings.DOCS_ROOT) if i.endswith('.rtf')]
+    #docs = sorted(docs)
     result = {'pk': pk,
-              'docs': docs }
+              #'docs': docs
+              }
     user = request.user
     s = get_object_or_404(Student, pk=pk)
     lock = s.studentrecordlock
