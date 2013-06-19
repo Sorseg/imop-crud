@@ -26,13 +26,7 @@
 			<input type="submit" value="Удалить" name="delete" onclick="if(confirm('Действительно удалить?')){return true;} else { return false; }" >
 	</form>
 	
-<h3><a href="javascript:;" onclick="toggle_form(this);">Документы</a></h3>
 {% endif %}
-<ul id='docs' style="display: none;">
-	{% comment %}
-	{% for doc in docs %}
-	<li><a href="{% url doc_render pk doc %}">{{ doc }}</a></li>
-	{% endfor %}
-	{% endcomment %}
-</ul>
+ <a href="{% url documents pk %}">Документы</a>
+
 {% endblock %}
