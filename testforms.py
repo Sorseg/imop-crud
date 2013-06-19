@@ -15,7 +15,7 @@ def test_fields_existance():
         lost = fields - found_fields
         not_needed = found_fields - fields
         if lost: print "lost: ", list(lost)
-        if not_needed: print "not needed:", found_fields - fields
+        if not_needed: print "not needed:", list(not_needed)
 
 
 test_fields_existance()
