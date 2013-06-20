@@ -2,6 +2,8 @@
 import re
 import string
 import random
+import os
+from django.conf import settings
 
 def gen_date_dict(prefix, date = None):
     if not date:
@@ -19,6 +21,9 @@ def gen_date_dict(prefix, date = None):
             }
     except IndexError:
         raise ValueError('corrupted date:'+str(date))
+
+def gen_enum(prefix,string):
+    return {prefix+'_{:02}'.format(i):c.encode('cp1251') for i,c in enumerate(string,1)}
 
 
 CHESS_KEYS = ['fname_{:02}'.format(i) for i in range(1,36)]+\
@@ -52,4 +57,31 @@ def test():
     with open('asdf.rtf','w') as fo:
         fo.write(result.encode('cp1251'))
 
-test()
+def render(doc, data):
+    doc_fname = os.path.basename(doc)
+    contents = open(os.path.join(settings.DOCS_ROOT, doc_fname.encode('utf8'))).read()
+    if doc == u'Уведомление.rtf':
+        pattern = re.compile('(' + '|'.join(CHESS_KEYS) + r')')
+        uv_replace = gen_uv_data(data)
+        result = pattern.sub(lambda x:uv_replace.get(x.group(),''), contents)
+        return result
+
+def gen_uv_data(data):
+    result = {}
+    def update_enum(key, pref):
+        val = data.get(key,('',''))[1].upper()
+        if val not in ('','-'):
+            result.update(gen_enum(pref,val))
+
+    def update_date(key,pref):
+        val = data.get(key,('',''))[1]
+        if val not in ('','-'):
+            result.update(gen_date_dict(pref,val))
+    #WARNING!!!! fname and lname are switched in file
+    update_enum('first_name','lname')
+    update_enum('last_name','fname')
+    update_enum('citizenship','cntry')
+    update_date('birth_date','bd')
+
+    #TODO add more
+    return result

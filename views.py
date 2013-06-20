@@ -18,6 +18,7 @@ import json
 import time
 import traceback
 import os
+import docs
 
 view_formats = ['passport_form.html', 'omir_form.html', 'kadr_form.html']
 
@@ -98,7 +99,6 @@ def edit(request, pk):
     result = {'pk': pk,
               #'docs': docs
               }
-    user = request.user
     s = get_object_or_404(Student, pk=pk)
     lock = s.studentrecordlock
     result['version'] = lock.version
@@ -135,7 +135,8 @@ def edit(request, pk):
 
 @student_render('docs.html')
 def documents(request, pk):
-    return {}
+    return {'pk':pk,
+            'documents':[u'Уведомление.rtf']}
 
 
 @student_render('view.html')
@@ -243,11 +244,16 @@ def countries(request):
 
 @login_required
 def doc_render(request, pk, doc):
+    perm = user_permissions(request.user, 'R')
+    s = get_object_or_404(Student, pk=pk)
+    data = s.get_dict(perm)
+
+    contents = docs.render(doc,data)
     doc_fname = os.path.basename(doc)
-    contents = open(os.path.join(settings.DOCS_ROOT, doc_fname)).read()
+    #contents = open(os.path.join(settings.DOCS_ROOT, doc_fname)).read()
 
     response = HttpResponse(contents, content_type='application/rtf')
-    response['Content-Disposition']='attachment; filename="'+doc_fname+'"'
+    response['Content-Disposition']='attachment; filename="'+doc_fname.encode('utf8')+'"'
 
     return response
 

@@ -11,6 +11,8 @@
 	</div>
 {% endif %}
 
+
+ <h1><a href="{% url documents pk %}">Документы</a></h1>
 {% if not success %}
 	<form method="post">
 		<input type="hidden" name="version" value="{{ version }}">
@@ -27,6 +29,6 @@
 	</form>
 	
 {% endif %}
- <a href="{% url documents pk %}">Документы</a>
+
 
 {% endblock %}

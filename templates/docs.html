@@ -4,5 +4,9 @@
 
 {% block content %}
 <h1>ДОКУМЕНТЫ</h1>
-В разработке.
+<ol>
+{% for doc in documents %}
+    <a href="{% url doc_render pk doc %}">{{doc}}</a>
+{% endfor %}
+</ol>
 {% endblock %}
