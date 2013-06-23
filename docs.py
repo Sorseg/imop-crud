@@ -81,7 +81,7 @@ def gen_chess_data(data):
     update_enum('citizenship','cntry')
     update_date('birth_date','bd')
     sex = data.get('sex',('',''))[1]
-    if sex:
+    if '-' not in sex:
         result['sex_m' if sex == u'М' else 'sex_f' ] = 'X'
 
     passser, passno = split_num(get_val('passport_num'))
