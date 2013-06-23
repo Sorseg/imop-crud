@@ -45,6 +45,8 @@ CHESS_KEYS = ['fname_{:02}'.format(i) for i in range(1,36)]+\
              ['mgrn_{:02}'.format(i) for i in range(1,12)]+\
              ['mgra_{:02}'.format(i) for i in range(1,58)]
 
+CHESS_PATTERN = re.compile('(' + '|'.join(CHESS_KEYS) + r')')
+
 
 def test():
     with open('docs/design_filling4.rtf') as f:
@@ -61,12 +63,11 @@ def render(doc, data):
     doc_fname = os.path.basename(doc)
     contents = open(os.path.join(settings.DOCS_ROOT, doc_fname.encode('utf8'))).read()
     if doc == u'Уведомление.rtf':
-        pattern = re.compile('(' + '|'.join(CHESS_KEYS) + r')')
-        uv_replace = gen_uv_data(data)
-        result = pattern.sub(lambda x:uv_replace.get(x.group(),''), contents)
+        uv_replace = gen_chess_data(data)
+        result = CHESS_PATTERN.sub(lambda x:uv_replace.get(x.group(),''), contents)
         return result
 
-def gen_uv_data(data):
+def gen_chess_data(data):
     result = {}
     def update_enum(key, pref):
         val = data.get(key,('',''))[1].upper()
@@ -77,7 +78,7 @@ def gen_uv_data(data):
         val = data.get(key,('',''))[1]
         if val not in ('','-'):
             result.update(gen_date_dict(pref,val))
-    #WARNING!!!! fname and lname are switched in file
+    #WARNING!!!! fname and lname are swapped in file
     update_enum('first_name','lname')
     update_enum('last_name','fname')
     update_enum('citizenship','cntry')
