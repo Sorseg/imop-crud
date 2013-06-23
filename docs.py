@@ -26,38 +26,27 @@ def gen_enum(prefix,string):
     return {prefix+'_{:02}'.format(i):c.encode('cp1251') for i,c in enumerate(string,1)}
 
 
-CHESS_KEYS = ['fname_{:02}'.format(i) for i in range(1,36)]+\
-             ['lname_{:02}'.format(i) for i in range(1,36)]+\
-             ['cntry_{:02}'.format(i) for i in range(1,35)]+\
-             gen_date_dict('bd').keys()+\
-             ['sex_m','sex_f']+\
-             ['passser_{:02}'.format(i) for i in range(1,5)]+\
-             ['passno_{:02}'.format(i) for i in range(1,10)]+\
-             gen_date_dict('passgot').keys()+\
-             gen_date_dict('passt').keys()+\
-             ['visaser_{:02}'.format(i) for i in range(1,5)]+\
-             ['visanum_{:02}'.format(i) for i in range(1,10)]+\
-             gen_date_dict('visadel').keys()+\
-             gen_date_dict('vst').keys()+\
-             gen_date_dict('mgrd').keys()+\
-             gen_date_dict('mgrt').keys()+\
-             ['mgrs_{:02}'.format(i) for i in range(1,5)]+\
-             ['mgrn_{:02}'.format(i) for i in range(1,12)]+\
-             ['mgra_{:02}'.format(i) for i in range(1,58)]
+CHESS_KEYS = [r'fname_\d\d',#
+              r'lname_\d\d',#
+              r'cntry_\d\d',#
+              r'bd[dmy]_\d\d',#
+              r'sex_[mf]',#
+              r'passser_\d\d',#
+              r'passno_\d\d',#
+              r'passgot[dmy]_\d\d',#
+              r'passt[dmy]_\d\d',#
+              r'visadel[dmy]_\d\d',#
+              r'vst[dmy]_\d\d',#
+              r'mgrd[dmy]_\d\d',
+              r'mgrt[dmy]_\d\d',
+              r'mgr[sna]_\d\d',
+              r'visaser_\d\d',
+              r'visanum_\d\d']
+
+
 
 CHESS_PATTERN = re.compile('(' + '|'.join(CHESS_KEYS) + r')')
 
-
-def test():
-    with open('docs/design_filling4.rtf') as f:
-        data = f.read()
-
-    pattern = re.compile('(' + '|'.join(CHESS_KEYS) + r')')
-    result = pattern.sub(lambda x:random.choice(string.letters),data)
-
-
-    with open('asdf.rtf','w') as fo:
-        fo.write(result.encode('cp1251'))
 
 def render(doc, data):
     doc_fname = os.path.basename(doc)
@@ -67,22 +56,54 @@ def render(doc, data):
         result = CHESS_PATTERN.sub(lambda x:uv_replace.get(x.group(),''), contents)
         return result
 
+
 def gen_chess_data(data):
     result = {}
+
+    def get_val(key):
+        val = data.get(key, ('', ''))[1].upper()
+        return '' if val == '-' else val
+
     def update_enum(key, pref):
-        val = data.get(key,('',''))[1].upper()
-        if val not in ('','-'):
-            result.update(gen_enum(pref,val))
+        result.update(gen_enum(pref, get_val(key)))
 
     def update_date(key,pref):
-        val = data.get(key,('',''))[1]
-        if val not in ('','-'):
-            result.update(gen_date_dict(pref,val))
+        result.update(gen_date_dict(pref,get_val(key)))
+
+    def split_num(string):
+        digits = [c for c in string if c.isdigit()]
+        return digits[:4], digits[4:]
+
+
     #WARNING!!!! fname and lname are swapped in file
     update_enum('first_name','lname')
     update_enum('last_name','fname')
     update_enum('citizenship','cntry')
     update_date('birth_date','bd')
+    sex = data.get('sex',('',''))[1]
+    if sex:
+        result['sex_m' if sex == u'М' else 'sex_f' ] = 'X'
+
+    passser, passno = split_num(get_val('passport_num'))
+    result.update(gen_enum('passser',passser))
+    result.update(gen_enum('passno',passno))
+
+    update_date('passport_duration_from_date','passgot')
+    update_date('passport_duration_till_date','passt')
+    update_date('visa_delivery_date','visadel')
+    update_date('visa_entrance_till_date','vst')
+    update_date('migration_date','mgrd')
+    update_date('migration_till_date','mgrt')
+    update_enum('address_migration', 'mgra')
+
+    visaser, visanum = split_num(get_val('visa_number'))
+    result.update(gen_enum('visaser',visaser))
+    result.update(gen_enum('visanum',visanum))
+
+    mgrser, mgrnum = split_num(get_val('migration_number'))
+    result.update(gen_enum('mgrs', mgrser))
+    result.update(gen_enum('mgrn', mgrnum))
+
 
     #TODO add more
     return result
